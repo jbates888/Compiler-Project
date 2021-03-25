@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include "Semantics.h"
 
 
 struct ExprRes * doIntLit(char * digits) {
@@ -124,10 +129,9 @@ void Finish(struct InstrSeq *Code) {
   AppendSeq(code,GenInstr("_nl",".asciiz","\"\\n\"",NULL,NULL));
   hasMore = startIterator(table);
   while (hasMore) {
-    AppendSeq(code,GenInstr((char *)getCurrentName(table),
-			     “.word","0",NULL,NULL));
- hasMore = nextEntry(table);
- }
+    AppendSeq(code,GenInstr((char *)getCurrentName(table),“.word","0",NULL,NULL));
+    hasMore = nextEntry(table);
+  }
 
  WriteSeq(code);
 

@@ -1,3 +1,17 @@
+%{
+  #include "SymTab.h"
+  #include "IOMngr.h"
+  #include "y.tab.h"
+
+  #define YY_INPUT(buf,result,max_size)\
+  { int c = getNextSourceChar();\
+  result = (c == EOF) ? YY_NULL : (buf[0] = c, 1);\
+  }
+
+%}
+
+letter [A-Za-z]
+digit [0-9]
 
 %%
 
@@ -19,8 +33,8 @@ print                         {return Write;}
 \t                            {}
 \r                            {}
 \n                            {}
-.                             {WriteIndicator(GetCurrentColumn());
-                               WriteMessage("Illegal Character in lex");}
+.                             {writeIndicator(getCurrentColumnNum());
+                               writeMessage("Illegal Character in lex");}
 
 %%
 

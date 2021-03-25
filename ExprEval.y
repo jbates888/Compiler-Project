@@ -1,3 +1,23 @@
+%{
+
+  #include "Semantics.h"
+  #include "IOMngr.h"
+  #include <string.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+
+  extern int yylex();
+  extern char *yytext;
+  extern int yyleng;
+  extern int yyerror(char*);
+
+  extern SymTab * table;
+  extern SymEntry * entry;
+
+%}
+
+
+
 %union {
   long val;
   char * string;

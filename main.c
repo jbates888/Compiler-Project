@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include "SymTab.h"
+#include "IOMngr.h"
+
+extern int yyparse();
+
 SymTab *table;
 FILE *aFile;
 int main(int argc, char * argv[]) {
