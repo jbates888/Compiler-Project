@@ -66,7 +66,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 1 "ExprEval.y" /* yacc.c:1909  */
+#line 22 "ExprEval.y" /* yacc.c:1909  */
 
   long val;
   char * string;

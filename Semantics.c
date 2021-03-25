@@ -3,6 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 #include "Semantics.h"
+#include "CodeGen.h"
+
+extern SymTab* table;
 
 //create the mips code for storing a Int
 struct ExprRes * doIntLit(char * digits) {
@@ -21,9 +24,9 @@ struct ExprRes * doRval(char * name) {
   struct ExprRes *res;
 
   //check if the var has been declared by looking in the symbol table
-  if (!FindName(table, name)) {
-    WriteIndicator(GetCurrentColumn());
-    WriteMessage("Undeclared variable");
+  if (!findName(table, name)) {
+    writeIndicator(getCurrentColumnNum());
+    writeMessage("Undeclared variable");
   }
   res = (struct ExprRes *) malloc(sizeof(struct ExprRes));
   //assign the reg to an available register
@@ -50,7 +53,7 @@ struct ExprRes * doAdd(struct ExprRes * Res1, struct ExprRes * Res2) {
   return Res1;
 }
 
-//create the mips code for a multiplication 
+//create the mips code for a multiplication
 struct ExprRes * doMult(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
 
@@ -92,9 +95,9 @@ struct InstrSeq * doAssign(char *name, struct ExprRes * Expr) {
   struct InstrSeq *code;
 
   //check if the name var has been delcared
-  if (!FindName(table, name)) {
-    WriteIndicator(GetCurrentColumn());
-    WriteMessage("Undeclared variable");
+  if (!findName(table, name)) {
+    writeIndicator(getCurrentColumnNum());
+    writeMessage("Undeclared variable");
   }
   code = Expr->Instrs;
 
@@ -140,8 +143,10 @@ struct InstrSeq * doIf(struct BExprRes * bRes, struct InstrSeq * seq) {
 //genereate a data section based on whats in the symbol table
 void Finish(struct InstrSeq *Code) {
   struct InstrSeq *code;
-  struct SymEntry *entry;
+  //struct SymEntry *entry;
   struct Attr * attr;
+  int hasMore;
+
   code = GenInstr(NULL,".text",NULL,NULL,NULL);
   AppendSeq(code,GenInstr(NULL,".globl","main",NULL,NULL));
   AppendSeq(code, GenInstr("main",NULL,NULL,NULL,NULL));
@@ -160,5 +165,5 @@ void Finish(struct InstrSeq *Code) {
   }
 
   WriteSeq(code);
-
+  return;
 }

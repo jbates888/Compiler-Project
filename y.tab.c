@@ -62,8 +62,28 @@
 
 
 /* Copy the first part of user declarations.  */
+#line 1 "ExprEval.y" /* yacc.c:339  */
 
-#line 67 "y.tab.c" /* yacc.c:339  */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "IOMngr.h"
+#include "SymTab.h"
+#include "Semantics.h"
+#include "CodeGen.h"
+
+  extern int yylex();/* The next token function. */
+  extern char *yytext;   /* The matched token text.  */
+  extern int yyleng;      /* The token text length.   */
+  extern int yyparse();
+  extern int yyerror(char *);
+  void dumpTable();
+
+  extern SymTab *table;
+
+  
+
+#line 87 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -119,7 +139,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 1 "ExprEval.y" /* yacc.c:355  */
+#line 22 "ExprEval.y" /* yacc.c:355  */
 
   long val;
   char * string;
@@ -127,7 +147,7 @@ union YYSTYPE
   struct InstrSeq * InstrSeq;
   struct BExprRes * BExprRes;
 
-#line 131 "y.tab.c" /* yacc.c:355  */
+#line 151 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -144,7 +164,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 148 "y.tab.c" /* yacc.c:358  */
+#line 168 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -442,8 +462,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    27,    28,    29,    29,    30,    31,    32,
-      33,    34,    35,    36,    37,    38,    39,    40,    41,    42
+       0,    47,    47,    48,    49,    50,    50,    51,    52,    53,
+      54,    55,    56,    57,    58,    59,    60,    61,    62,    63
 };
 #endif
 
@@ -1233,115 +1253,115 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 26 "ExprEval.y" /* yacc.c:1646  */
+#line 47 "ExprEval.y" /* yacc.c:1646  */
     {Finish((yyvsp[0].InstrSeq)); }
-#line 1239 "y.tab.c" /* yacc.c:1646  */
+#line 1259 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 27 "ExprEval.y" /* yacc.c:1646  */
+#line 48 "ExprEval.y" /* yacc.c:1646  */
     { }
-#line 1245 "y.tab.c" /* yacc.c:1646  */
+#line 1265 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 28 "ExprEval.y" /* yacc.c:1646  */
+#line 49 "ExprEval.y" /* yacc.c:1646  */
     { }
-#line 1251 "y.tab.c" /* yacc.c:1646  */
+#line 1271 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 29 "ExprEval.y" /* yacc.c:1646  */
+#line 50 "ExprEval.y" /* yacc.c:1646  */
     {enterName(table, yytext); }
-#line 1257 "y.tab.c" /* yacc.c:1646  */
+#line 1277 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 29 "ExprEval.y" /* yacc.c:1646  */
+#line 50 "ExprEval.y" /* yacc.c:1646  */
     {}
-#line 1263 "y.tab.c" /* yacc.c:1646  */
+#line 1283 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 30 "ExprEval.y" /* yacc.c:1646  */
+#line 51 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = AppendSeq((yyvsp[-1].InstrSeq), (yyvsp[0].InstrSeq)); }
-#line 1269 "y.tab.c" /* yacc.c:1646  */
+#line 1289 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 31 "ExprEval.y" /* yacc.c:1646  */
+#line 52 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = NULL;}
-#line 1275 "y.tab.c" /* yacc.c:1646  */
+#line 1295 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 32 "ExprEval.y" /* yacc.c:1646  */
+#line 53 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doPrint((yyvsp[-1].ExprRes)); }
-#line 1281 "y.tab.c" /* yacc.c:1646  */
+#line 1301 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 33 "ExprEval.y" /* yacc.c:1646  */
+#line 54 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doAssign((yyvsp[-3].string), (yyvsp[-1].ExprRes));}
-#line 1287 "y.tab.c" /* yacc.c:1646  */
+#line 1307 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 34 "ExprEval.y" /* yacc.c:1646  */
+#line 55 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doIf((yyvsp[-4].BExprRes), (yyvsp[-1].InstrSeq));}
-#line 1293 "y.tab.c" /* yacc.c:1646  */
+#line 1313 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 35 "ExprEval.y" /* yacc.c:1646  */
+#line 56 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.BExprRes) = doBExpr((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes));}
-#line 1299 "y.tab.c" /* yacc.c:1646  */
+#line 1319 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 36 "ExprEval.y" /* yacc.c:1646  */
+#line 57 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.ExprRes) = doAdd((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes)); }
-#line 1305 "y.tab.c" /* yacc.c:1646  */
+#line 1325 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 37 "ExprEval.y" /* yacc.c:1646  */
+#line 58 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.ExprRes) = (yyvsp[0].ExprRes); }
-#line 1311 "y.tab.c" /* yacc.c:1646  */
+#line 1331 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 38 "ExprEval.y" /* yacc.c:1646  */
+#line 59 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doMult((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes)); }
-#line 1317 "y.tab.c" /* yacc.c:1646  */
+#line 1337 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 39 "ExprEval.y" /* yacc.c:1646  */
+#line 60 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = (yyvsp[0].ExprRes); }
-#line 1323 "y.tab.c" /* yacc.c:1646  */
+#line 1343 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 40 "ExprEval.y" /* yacc.c:1646  */
+#line 61 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doIntLit(yytext); }
-#line 1329 "y.tab.c" /* yacc.c:1646  */
+#line 1349 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 41 "ExprEval.y" /* yacc.c:1646  */
+#line 62 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doRval(yytext); }
-#line 1335 "y.tab.c" /* yacc.c:1646  */
+#line 1355 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 42 "ExprEval.y" /* yacc.c:1646  */
+#line 63 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.string) = strdup(yytext);}
-#line 1341 "y.tab.c" /* yacc.c:1646  */
+#line 1361 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1345 "y.tab.c" /* yacc.c:1646  */
+#line 1365 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1569,5 +1589,11 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 44 "ExprEval.y" /* yacc.c:1906  */
+#line 65 "ExprEval.y" /* yacc.c:1906  */
 
+
+int yyerror(char *s)  {
+  writeIndicator(getCurrentColumnNum());
+  writeMessage("Illegal Character in YACC");
+  return 1;
+}
