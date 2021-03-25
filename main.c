@@ -6,6 +6,7 @@ extern int yyparse();
 
 SymTab *table;
 FILE *aFile;
+
 int main(int argc, char * argv[]) {
   table = createSymTab(33);
   //assumes there is a listing file
