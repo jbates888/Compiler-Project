@@ -1,5 +1,4 @@
 %{
-  #include "SymTab.h"
   #include "IOMngr.h"
   #include "y.tab.h"
 

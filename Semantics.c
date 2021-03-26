@@ -1,9 +1,11 @@
-#include <stdio.h>
+#include <strings.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "Semantics.h"
+
 #include "CodeGen.h"
+#include "Semantics.h"
+#include "SymTab.h"
+#include "IOMngr.h"
+
 
 extern SymTab* table;
 

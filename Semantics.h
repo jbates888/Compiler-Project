@@ -1,5 +1,3 @@
-#include "SymTab.h"
-#include "IOMngr.h"
 
 /* Semantic Records */
 struct IdList {

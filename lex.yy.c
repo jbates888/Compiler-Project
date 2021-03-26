@@ -483,7 +483,6 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "lex1.l"
 #line 2 "lex1.l"
-  #include "SymTab.h"
   #include "IOMngr.h"
   #include "y.tab.h"
 
@@ -492,7 +491,7 @@ char *yytext;
   result = (c == EOF) ? YY_NULL : (buf[0] = c, 1);\
   }
 
-#line 496 "lex.yy.c"
+#line 495 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -710,10 +709,10 @@ YY_DECL
 		}
 
 	{
-#line 16 "lex1.l"
+#line 15 "lex1.l"
 
 
-#line 717 "lex.yy.c"
+#line 716 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -772,107 +771,107 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 18 "lex1.l"
+#line 17 "lex1.l"
 {return IF;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 19 "lex1.l"
+#line 18 "lex1.l"
 {return Int;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 20 "lex1.l"
+#line 19 "lex1.l"
 {return Write;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "lex1.l"
+#line 20 "lex1.l"
 {return Ident;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 22 "lex1.l"
+#line 21 "lex1.l"
 {return IntLit;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 23 "lex1.l"
+#line 22 "lex1.l"
 {return EQ;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 24 "lex1.l"
+#line 23 "lex1.l"
 {return '=';}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "lex1.l"
+#line 24 "lex1.l"
 {return '+';}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 26 "lex1.l"
+#line 25 "lex1.l"
 {return '*';}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 27 "lex1.l"
+#line 26 "lex1.l"
 {return ';';}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 28 "lex1.l"
+#line 27 "lex1.l"
 {return '{';}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 29 "lex1.l"
+#line 28 "lex1.l"
 {return '}';}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 30 "lex1.l"
+#line 29 "lex1.l"
 {return '(';}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 31 "lex1.l"
+#line 30 "lex1.l"
 {return ')';}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 32 "lex1.l"
+#line 31 "lex1.l"
 {}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 33 "lex1.l"
+#line 32 "lex1.l"
 {}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 34 "lex1.l"
+#line 33 "lex1.l"
 {}
 	YY_BREAK
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 35 "lex1.l"
+#line 34 "lex1.l"
 {}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 36 "lex1.l"
+#line 35 "lex1.l"
 {writeIndicator(getCurrentColumnNum());
                                writeMessage("Illegal Character in lex");}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 39 "lex1.l"
+#line 38 "lex1.l"
 ECHO;
 	YY_BREAK
-#line 876 "lex.yy.c"
+#line 875 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1873,7 +1872,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 39 "lex1.l"
+#line 38 "lex1.l"
 
 
 

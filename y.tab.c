@@ -72,18 +72,17 @@
 #include "Semantics.h"
 #include "CodeGen.h"
 
-  extern int yylex();/* The next token function. */
-  extern char *yytext;   /* The matched token text.  */
-  extern int yyleng;      /* The token text length.   */
-  extern int yyparse();
-  extern int yyerror(char *);
-  void dumpTable();
+extern int yylex();/* The next token function. */
+extern char *yytext;   /* The matched token text.  */
+extern int yyleng;      /* The token text length.   */
+extern int yyparse();
+extern int yyerror(char *);
+void dumpTable();
 
-  extern SymTab *table;
+extern SymTab *table;
 
-  
 
-#line 87 "y.tab.c" /* yacc.c:339  */
+#line 86 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -147,7 +146,7 @@ union YYSTYPE
   struct InstrSeq * InstrSeq;
   struct BExprRes * BExprRes;
 
-#line 151 "y.tab.c" /* yacc.c:355  */
+#line 150 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -164,7 +163,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 168 "y.tab.c" /* yacc.c:358  */
+#line 167 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1255,113 +1254,113 @@ yyreduce:
         case 2:
 #line 47 "ExprEval.y" /* yacc.c:1646  */
     {Finish((yyvsp[0].InstrSeq)); }
-#line 1259 "y.tab.c" /* yacc.c:1646  */
+#line 1258 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 48 "ExprEval.y" /* yacc.c:1646  */
     { }
-#line 1265 "y.tab.c" /* yacc.c:1646  */
+#line 1264 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 49 "ExprEval.y" /* yacc.c:1646  */
     { }
-#line 1271 "y.tab.c" /* yacc.c:1646  */
+#line 1270 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 50 "ExprEval.y" /* yacc.c:1646  */
     {enterName(table, yytext); }
-#line 1277 "y.tab.c" /* yacc.c:1646  */
+#line 1276 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 50 "ExprEval.y" /* yacc.c:1646  */
     {}
-#line 1283 "y.tab.c" /* yacc.c:1646  */
+#line 1282 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 51 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = AppendSeq((yyvsp[-1].InstrSeq), (yyvsp[0].InstrSeq)); }
-#line 1289 "y.tab.c" /* yacc.c:1646  */
+#line 1288 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 52 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = NULL;}
-#line 1295 "y.tab.c" /* yacc.c:1646  */
+#line 1294 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 53 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doPrint((yyvsp[-1].ExprRes)); }
-#line 1301 "y.tab.c" /* yacc.c:1646  */
+#line 1300 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 54 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doAssign((yyvsp[-3].string), (yyvsp[-1].ExprRes));}
-#line 1307 "y.tab.c" /* yacc.c:1646  */
+#line 1306 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 55 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.InstrSeq) = doIf((yyvsp[-4].BExprRes), (yyvsp[-1].InstrSeq));}
-#line 1313 "y.tab.c" /* yacc.c:1646  */
+#line 1312 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 56 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.BExprRes) = doBExpr((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes));}
-#line 1319 "y.tab.c" /* yacc.c:1646  */
+#line 1318 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 57 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.ExprRes) = doAdd((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes)); }
-#line 1325 "y.tab.c" /* yacc.c:1646  */
+#line 1324 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 58 "ExprEval.y" /* yacc.c:1646  */
     {(yyval.ExprRes) = (yyvsp[0].ExprRes); }
-#line 1331 "y.tab.c" /* yacc.c:1646  */
+#line 1330 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 59 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doMult((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes)); }
-#line 1337 "y.tab.c" /* yacc.c:1646  */
+#line 1336 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 60 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = (yyvsp[0].ExprRes); }
-#line 1343 "y.tab.c" /* yacc.c:1646  */
+#line 1342 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 61 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doIntLit(yytext); }
-#line 1349 "y.tab.c" /* yacc.c:1646  */
+#line 1348 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 62 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.ExprRes) = doRval(yytext); }
-#line 1355 "y.tab.c" /* yacc.c:1646  */
+#line 1354 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 63 "ExprEval.y" /* yacc.c:1646  */
     { (yyval.string) = strdup(yytext);}
-#line 1361 "y.tab.c" /* yacc.c:1646  */
+#line 1360 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1365 "y.tab.c" /* yacc.c:1646  */
+#line 1364 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

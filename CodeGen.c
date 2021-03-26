@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
-
+#include <string.h>//added this
 #include "CodeGen.h"
 
 
