@@ -53,6 +53,7 @@ StmtSeq        :                                   {$$ = NULL;} ;
 Stmt           :  Write Expr ';'                   {$$ = doPrint($2); };
 Stmt           :  Id '=' Expr ';'                  {$$ = doAssign($1, $3);} ;  
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' {$$ = doIf($3, $6);};
+Term           :  Term '&''&' Factor               {$$ = doAnd($1, $4); } ;
 BExpr          :  Expr EQ Expr                     {$$ = doBExpr($1, $3, "==");};
 BExpr          :  Expr '!' '=' Expr                {$$ = doBExpr($1, $4, "!=");};
 BExpr          :  Expr '<' Expr                    {$$ = doBExpr($1, $3, "<");};
