@@ -28,6 +28,7 @@ extern struct ExprRes * doMult(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doDiv(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2);
+extern struct ExprRes * doNot(struct ExprRes * Res1);
 extern struct InstrSeq * doPrint(struct ExprRes * Expr);
 extern struct BExprRes * doBExpr (struct ExprRes * Res1, struct ExprRes * Res2, char * op);
 extern struct InstrSeq * doIf(struct BExprRes *bRes, struct InstrSeq * seq);

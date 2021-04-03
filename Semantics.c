@@ -75,7 +75,8 @@ struct ExprRes * doSub(struct ExprRes * Res1, struct ExprRes * Res2) {
   return Res1;
 }
 
-//create the mips instruction for an unary minus
+
+//generatee the mips instruction for an unary minus
 struct ExprRes * doUSub(struct ExprRes * Res1) {
   int reg;
   //assign the reg to an available register
@@ -148,8 +149,10 @@ struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2) {
   reg = AvailTmpReg();
   //append the two expressions being divided
   AppendSeq(Res1->Instrs,Res2->Instrs);
+
   //generate and append the division instruction
   AppendSeq(Res1->Instrs,GenInstr(NULL, "div", TmpRegName(reg), TmpRegName(Res1->Reg), TmpRegName(Res2->Reg)));
+
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
   Res1->Reg = reg;
@@ -210,6 +213,9 @@ struct BExprRes * doBExpr(struct ExprRes * Res1, struct ExprRes * Res2, char * o
   if(strcmp(op, "==") == 0){
     //append branch not equal instruction
     AppendSeq(Res1->Instrs, GenInstr(NULL, "bne", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+  } else if (strcmp(op, "!=") == 0){
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "beq", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+
   } else if (strcmp(op, "<") == 0){
     //int reg;
     //assign the reg to an available register
