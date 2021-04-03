@@ -21,7 +21,6 @@ struct BExprRes {
 extern struct ExprRes * doIntLit(char * digits);
 extern struct ExprRes * doRval(char * name);
 extern struct InstrSeq * doAssign(char * name, struct ExprRes * Res1);
-extern struct ExprRes * doLessThan(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doAdd(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doSub(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doUSub(struct ExprRes * Res1);
@@ -30,6 +29,6 @@ extern struct ExprRes * doDiv(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct InstrSeq * doPrint(struct ExprRes * Expr);
-extern struct BExprRes * doBExpr (struct ExprRes * Res1, struct ExprRes * Res2);
+extern struct BExprRes * doBExpr (struct ExprRes * Res1, struct ExprRes * Res2, char * op);
 extern struct InstrSeq * doIf(struct BExprRes *bRes, struct InstrSeq * seq);
 extern void Finish(struct InstrSeq *Code);

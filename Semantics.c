@@ -5,7 +5,7 @@
 #include "Semantics.h"
 #include "SymTab.h"
 #include "IOMngr.h"
-
+#include <string.h>
 
 extern SymTab* table;
 
@@ -36,23 +36,6 @@ struct ExprRes * doRval(char * name) {
   //generatet the load word instruction
   res->Instrs = GenInstr(NULL,"lw",TmpRegName(res->Reg),name,NULL);
   return res;
-}
-
-//create the mips instruction for an less than, NOTWORKING
-struct ExprRes * doLessThan(struct ExprRes * Res1, struct ExprRes * Res2) {
-  int reg;
-  //assign the reg to an available register
-  reg = AvailTmpReg();
-  //append the two passed in expression, these are whats being added together
-  AppendSeq(Res1->Instrs,Res2->Instrs);
-  //append the add instruction onto those
-  AppendSeq(Res1->Instrs,GenInstr(NULL,"add", TmpRegName(reg), TmpRegName(Res1->Reg),TmpRegName(Res2->Reg)));
-  //relese the registers because we used their results
-  ReleaseTmpReg(Res1->Reg);
-  ReleaseTmpReg(Res2->Reg);
-  Res1->Reg = reg;
-  free(Res2);
-  return Res1;
 }
 
 
@@ -216,14 +199,37 @@ struct InstrSeq * doAssign(char *name, struct ExprRes * Expr) {
 }
 
 //boolean expresion result for if statments '=='
-struct BExprRes * doBExpr(struct ExprRes * Res1, struct ExprRes * Res2) {
+struct BExprRes * doBExpr(struct ExprRes * Res1, struct ExprRes * Res2, char * op) {
   struct BExprRes * bRes;
   //append the two instruction sequences that are being compared
   AppendSeq(Res1->Instrs, Res2->Instrs);
   bRes = (struct BExprRes *) malloc(sizeof(struct BExprRes));
   bRes->Label = GenLabel();
-  //append branch not equal instruction
-  AppendSeq(Res1->Instrs, GenInstr(NULL, "bne", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+
+  //check for each type of comparrison passed in ONLY WORKS IN IF STMYS BC THEY BRANCH
+  if(strcmp(op, "==") == 0){
+    //append branch not equal instruction
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "bne", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+  } else if (strcmp(op, "<") == 0){
+    //int reg;
+    //assign the reg to an available register
+    //reg = AvailTmpReg();
+    //apprend instruction to branch if >=
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "bge", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+    
+    //AppendSeq(Res1->Instrs, GenInstr(NULL, "slt", TmpRegName(reg), TmpRegName(Res1->Reg), TmpRegName(Res2->Reg)));
+    //AppendSeq(Res1->Instrs, GenInstr(NULL, "beq", TmpRegName(reg), "$zero", bRes->Label));
+  }  else if (strcmp(op, ">") == 0){
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "ble", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+    
+  } else if (strcmp(op, "<=") == 0){
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "bgt", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+    
+  } else if (strcmp(op, ">=") == 0){
+    AppendSeq(Res1->Instrs, GenInstr(NULL, "blt", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
+    
+  }
+  
   bRes->Instrs = Res1->Instrs;
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
