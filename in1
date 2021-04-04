@@ -1,11 +1,18 @@
 int num1;
 int num2;
-num1 = 1;
+int num3;
+int num4;
+
+num1 = 0;
 num2 = 0;
-if (1 && 1) {
-  print num1;
-  print num2;
-}
+
+num3 = num1 && num2;
+num4 = num1 || num2;
+
+print num3;
+print num4;
+
+
 
 
 

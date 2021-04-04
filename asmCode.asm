@@ -11,7 +11,7 @@ main:
 	lw		$t0, num1
 	lw		$t1, num2
 	div		$t3, $t0, $t1
-	add		$t0, $t2, $t3
+	Add		$t0, $t2, $t3
 	sw		$t0, num3
 	li		$t0, 10
 	li		$t1, 2
@@ -52,7 +52,7 @@ main:
 	li		$t0, 8
 	sub		$t2, $t1, $t0
 	li		$t0, 2
-	add		$t1, $t2, $t0
+	Add		$t1, $t2, $t0
 	sw		$t1, num5
 	li		$t0, 38
 	li		$t1, 6
