@@ -39,20 +39,27 @@ struct ExprRes * doRval(char * name) {
 }
 
 //create the mips instruction for an &&, append the first res, res2, and the AND, DOES NOT WORK IN IN STMT
-struct ExprRes * doAnd(struct ExprRes * Res1, struct ExprRes * Res2) {
+extern struct ExprRes * doAnd(struct ExprRes * Res1, struct ExprRes * Res2) {
+  struct ExprRes * Res;
+  
   int reg;
   //assign the reg to an available register
   reg = AvailTmpReg();
   //append the two passed in expression, these are whats being added together
   AppendSeq(Res1->Instrs,Res2->Instrs);
+
+  Res = (struct ExprRes *) malloc(sizeof(struct ExprRes));
+  
   //append the add instruction onto those
   AppendSeq(Res1->Instrs,GenInstr(NULL,"and", TmpRegName(reg), TmpRegName(Res1->Reg),TmpRegName(Res2->Reg)));
   //relese the registers because we used their results
+  Res->Reg = reg;
+  Res->Instrs =  Res1->Instrs;
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
-  Res1->Reg = reg;
+  free(Res1);
   free(Res2);
-  return Res1;
+  return Res;
 }
 
 //create the mips instruction for an ||, append the first res, res2, and the AND, DOES NOT WORK IN IN STMT
