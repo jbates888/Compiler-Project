@@ -1,0 +1,13 @@
+int num1;
+int num2;
+
+num1 = 1;
+num2 = 2;
+
+print num1;
+print num2;
+printlines(2);
+print num1;
+print num1;
+printspaces(4);
+print num1;

@@ -19,6 +19,8 @@ else                          {return ELSE;}
 while                         {return WHILE;}
 int                           {return Int;}
 print                         {return Write;}
+printspaces                   {return WriteSpaces;}
+printlines                    {return WriteLines;}
 {letter}({letter}|{digit})*   {return Ident;}
 {digit}{digit}*               {return IntLit;}
 \=\=                          {return EQ;}

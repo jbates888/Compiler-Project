@@ -25,7 +25,7 @@ extern SymTab *table;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
   //struct BExprRes * BExprRes;
-}
+  }
 
 %type <string> Id
 %type <ExprRes> Factor
@@ -35,10 +35,13 @@ extern SymTab *table;
 %type <InstrSeq> Stmt
 %type <ExprRes> BExpr
 
+
 %token Ident 
 %token IntLit 
 %token Int
 %token Write
+%token WriteLines
+%token WriteSpaces
 %token IF
 %token ELSE
 %token WHILE
@@ -53,7 +56,9 @@ Dec            :  Int Ident {enterName(table, yytext); }';' {};
 StmtSeq        :  Stmt StmtSeq                              {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                            {$$ = NULL;} ;
 Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
-Stmt           :  Id '=' BExpr ';'                           {$$ = doAssign($1, $3);} ;  
+Stmt           :  WriteLines '(' Expr ')' ';'               {$$ = printlines($3); };
+Stmt           :  WriteSpaces '(' Expr ')' ';'              {$$ = printspaces($3); };
+Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;  
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
 BExpr          :  BExpr '&''&' Expr                         {$$ = doAnd($1, $4); } ;
 BExpr          :  BExpr '|''|' Expr                         {$$ = doOr($1, $4); } ;
@@ -77,7 +82,8 @@ Factor         :  '(' Expr ')'                              {$$ = $2;};
 Factor         :  IntLit                                    {$$ = doIntLit(yytext); };
 Factor         :  Ident                                     {$$ = doRval(yytext); };
 Id             :  Ident                                     {$$ = strdup(yytext);}
- 
+
+
 %%
 
 int yyerror(char *s)  {

@@ -1,36 +1,13 @@
-1: int num0;
-2: int num1;
-3: int num3;
-4: int num4;
-5: 
-6: num0 = 0;
-7: num1 = 1;
-8: 
-9: num3 = num1 && num1;
-10: print num3;
-11: 
-12: if(num1 && num1){
-13:   print 2;
-14: }
-15: 
-16: if(num1 && num0){
-17:   print 1000;
-18: }
-19: 
-20: if(num1 || num0){
-21:   print 3;
-22: }
-23: 
-24: if(num0 || num0){
-25:   print 1000;
-26: }
-27: 
-28: if(!(num0)){
-29:  print 4;
-30: }
-31: 
-32: if(num1 && !num0){
-33:    print 5;
-34: }
-35: 
-36:   
+1: int num1;
+2: int num2;
+3: 
+4: num1 = 1;
+5: num2 = 2;
+6: 
+7: print num1;
+8: print num2;
+9: printlines(2);
+10: print num1;
+11: print num1;
+12: printspaces(4);
+13: print num1;
