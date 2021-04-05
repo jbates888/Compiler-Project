@@ -32,6 +32,6 @@ extern struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2);
 extern struct ExprRes * doNot(struct ExprRes * Res1);
 extern struct InstrSeq * doPrint(struct ExprRes * Expr);
-extern struct BExprRes * doBExpr (struct ExprRes * Res1, struct ExprRes * Res2, char * op);
-extern struct InstrSeq * doIf(struct BExprRes *bRes, struct InstrSeq * seq);
+extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char * op);
+extern struct InstrSeq * doIf(struct ExprRes *bRes, struct InstrSeq * seq);
 extern void Finish(struct InstrSeq *Code);

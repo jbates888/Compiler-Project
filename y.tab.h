@@ -72,7 +72,7 @@ union YYSTYPE
   char * string;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
-  struct BExprRes * BExprRes;
+  //struct BExprRes * BExprRes;
 
 #line 78 "y.tab.h" /* yacc.c:1909  */
 };

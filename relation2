@@ -1,0 +1,42 @@
+int num1;
+int num2;
+int num3;
+int num4;
+
+num1 = 1;
+num2 = 2;
+num3 = 3;
+
+
+if(num1 > num3){
+  print 1000;
+}
+
+if(num1 > num1){
+  print 1000;
+}
+
+if(num2 > num1){
+  print 1;
+}
+
+if(num1 >= num1){
+  print 2;
+}
+
+if(num1 >= num2){
+  print 1000;
+}
+
+if(num3 >= num2){
+  print 3;
+}
+
+if(6 > num1){
+  print 4;
+}
+
+
+
+  
+

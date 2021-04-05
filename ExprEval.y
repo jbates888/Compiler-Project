@@ -24,7 +24,7 @@ extern SymTab *table;
   char * string;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
-  struct BExprRes * BExprRes;
+  //struct BExprRes * BExprRes;
 }
 
 %type <string> Id
@@ -33,7 +33,7 @@ extern SymTab *table;
 %type <ExprRes> Expr
 %type <InstrSeq> StmtSeq
 %type <InstrSeq> Stmt
-%type <BExprRes> BExpr
+%type <ExprRes> BExpr
 
 %token Ident 
 %token IntLit 
@@ -55,12 +55,12 @@ Stmt           :  Id '=' Expr ';'                  {$$ = doAssign($1, $3);} ;
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' {$$ = doIf($3, $6);};
 Term           :  Term '&''&' Factor               {$$ = doAnd($1, $4); } ;
 Term           :  Term '|''|' Factor               {$$ = doOr($1, $4); } ;
-BExpr          :  Expr EQ Expr                     {$$ = doBExpr($1, $3, "==");};
-BExpr          :  Expr '!' '=' Expr                {$$ = doBExpr($1, $4, "!=");};
-BExpr          :  Expr '<' Expr                    {$$ = doBExpr($1, $3, "<");};
-BExpr          :  Expr '>' Expr                    {$$ = doBExpr($1, $3, ">");};
-BExpr          :  Expr '<' '=' Expr                {$$ = doBExpr($1, $4, "<=");};
-BExpr          :  Expr '>' '=' Expr                {$$ = doBExpr($1, $4, ">=");};
+BExpr          :  Expr EQ Expr                     {$$ = doRel($1, $3, "==");};
+BExpr          :  Expr '!' '=' Expr                {$$ = doRel($1, $4, "!=");};
+BExpr          :  Expr '<' Expr                    {$$ = doRel($1, $3, "<");};
+BExpr          :  Expr '>' Expr                    {$$ = doRel($1, $3, ">");};
+BExpr          :  Expr '<' '=' Expr                {$$ = doRel($1, $4, "<=");};
+BExpr          :  Expr '>' '=' Expr                {$$ = doRel($1, $4, ">=");};
 Expr           :  Expr '+' Term                    {$$ = doAdd($1, $3); } ;
 Expr           :  Expr '-' Term                    {$$ = doSub($1, $3); } ;
 Expr           :  Term                             {$$ = $1; } ;

@@ -2,23 +2,41 @@
 2: int num2;
 3: int num3;
 4: int num4;
-5: int num5;
-6: int num6;
-7: 
-8: num1 = 10;
-9: num2 = 2;
-10: num3 = (num1 * num1) + num1 / num2;
-11: num4 = 10 / 2;
-12: 
-13: print num1;
-14: print num2;
-15: print num3;
-16: print num4;
-17: 
-18: num4 = 100;
-19: num5 = -9 - 8 + 2;
-20: 
-21: num6 = 38 % 6;
+5: 
+6: num1 = 1;
+7: num2 = 2;
+8: num3 = 3;
+9: 
+10: 
+11: if(num1 > num3){
+12:   print 1000;
+13: }
+14: 
+15: if(num1 > num1){
+16:   print 1000;
+17: }
+18: 
+19: if(num2 > num1){
+20:   print 1;
+21: }
 22: 
-23: print num6;
-24: print num5;
+23: if(num1 >= num1){
+24:   print 2;
+25: }
+26: 
+27: if(num1 >= num2){
+28:   print 1000;
+29: }
+30: 
+31: if(num3 >= num2){
+32:   print 3;
+33: }
+34: 
+35: if(6 > num1){
+36:   print 4;
+37: }
+38: 
+39: 
+40: 
+41:   
+42: 

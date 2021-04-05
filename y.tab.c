@@ -144,7 +144,7 @@ union YYSTYPE
   char * string;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
-  struct BExprRes * BExprRes;
+  //struct BExprRes * BExprRes;
 
 #line 150 "y.tab.c" /* yacc.c:355  */
 };
@@ -1330,7 +1330,7 @@ yyreduce:
 
   case 11:
 #line 55 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.InstrSeq) = doIf((yyvsp[-4].BExprRes), (yyvsp[-1].InstrSeq));}
+    {(yyval.InstrSeq) = doIf((yyvsp[-4].ExprRes), (yyvsp[-1].InstrSeq));}
 #line 1335 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1348,37 +1348,37 @@ yyreduce:
 
   case 14:
 #line 58 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), "==");}
+    {(yyval.ExprRes) = doRel((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), "==");}
 #line 1353 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 59 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), "!=");}
+    {(yyval.ExprRes) = doRel((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), "!=");}
 #line 1359 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 60 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), "<");}
+    {(yyval.ExprRes) = doRel((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), "<");}
 #line 1365 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 61 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), ">");}
+    {(yyval.ExprRes) = doRel((yyvsp[-2].ExprRes), (yyvsp[0].ExprRes), ">");}
 #line 1371 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 62 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), "<=");}
+    {(yyval.ExprRes) = doRel((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), "<=");}
 #line 1377 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 63 "ExprEval.y" /* yacc.c:1646  */
-    {(yyval.BExprRes) = doBExpr((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), ">=");}
+    {(yyval.ExprRes) = doRel((yyvsp[-3].ExprRes), (yyvsp[0].ExprRes), ">=");}
 #line 1383 "y.tab.c" /* yacc.c:1646  */
     break;
 
