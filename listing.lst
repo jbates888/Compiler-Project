@@ -1,44 +1,27 @@
-1: int num1;
-2: int num2;
+1: int num0;
+2: int num1;
 3: int num3;
 4: int num4;
 5: 
-6: num1 = 1;
-7: num2 = 2;
-8: num3 = 3;
-9: 
-10: num4 = num1 < num2;
-11: print num4;
-12: 
-13: if(num1 > num3){
-14:   print 1000;
-15: }
-16: 
-17: if(num1 > num1){
-18:   print 1000;
-19: }
-20: 
-21: if(num2 > num1){
-22:   print 2;
-23: }
-24: 
-25: if(num1 >= num1){
-26:   print 3;
-27: }
-28: 
-29: if(num1 >= num2){
-30:   print 1000;
-31: }
-32: 
-33: if(num3 >= num2){
-34:   print 4;
-35: }
-36: 
-37: if(6 > num1){
-38:   print 5;
-39: }
-40: 
-41: 
-42: 
-43:   
-44: 
+6: num0 = 0;
+7: num1 = 1;
+8: 
+9: num3 = num1 && num1;
+10: print num3;
+11: 
+12: if(num1 && num1){
+13:   print 2;
+14: }
+15: 
+16: if(num1 && num0){
+17:   print 1000;
+18: }
+19: 
+20: if(num1 || num0){
+21:   print 3;
+22: }
+23: 
+24: if(num0 || num0){
+25:   print 1000;
+26: }
+27:   

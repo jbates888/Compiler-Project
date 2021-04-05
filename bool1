@@ -10,10 +10,18 @@ num3 = num1 && num1;
 print num3;
 
 if(num1 && num1){
-  print 3;
+  print 2;
 }
 
 if(num1 && num0){
+  print 1000;
+}
+
+if(num1 || num0){
+  print 3;
+}
+
+if(num0 || num0){
   print 1000;
 }
   
