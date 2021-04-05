@@ -53,7 +53,7 @@ Dec            :  Int Ident {enterName(table, yytext); }';' {};
 StmtSeq        :  Stmt StmtSeq                              {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                            {$$ = NULL;} ;
 Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
-Stmt           :  Id '=' Expr ';'                           {$$ = doAssign($1, $3);} ;  
+Stmt           :  Id '=' BExpr ';'                           {$$ = doAssign($1, $3);} ;  
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
 BExpr          :  BExpr '&''&' Expr                         {$$ = doAnd($1, $4); } ;
 BExpr          :  BExpr '|''|' Expr                         {$$ = doOr($1, $4); } ;
