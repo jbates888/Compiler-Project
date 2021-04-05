@@ -24,4 +24,13 @@ if(num1 || num0){
 if(num0 || num0){
   print 1000;
 }
+
+if(!(num0)){
+ print 4;
+}
+
+if(num1 && !num0){
+   print 5;
+}
+
   

@@ -41,15 +41,12 @@ struct ExprRes * doRval(char * name) {
 //create the mips instruction for an &&, append the first res, res2, and the AND, DOES NOT WORK IN IN STMT
 extern struct ExprRes * doAnd(struct ExprRes * Res1, struct ExprRes * Res2) {
   struct ExprRes * Res;
-  
   int reg;
   //assign the reg to an available register
   reg = AvailTmpReg();
   //append the two passed in expression, these are whats being added together
   AppendSeq(Res1->Instrs,Res2->Instrs);
-
   Res = (struct ExprRes *) malloc(sizeof(struct ExprRes));
-  
   //append the add instruction onto those
   AppendSeq(Res1->Instrs,GenInstr(NULL,"and", TmpRegName(reg), TmpRegName(Res1->Reg),TmpRegName(Res2->Reg)));
   //relese the registers because we used their results
@@ -65,15 +62,12 @@ extern struct ExprRes * doAnd(struct ExprRes * Res1, struct ExprRes * Res2) {
 //create the mips instruction for an ||, append the first res, res2, and the AND, DOES NOT WORK IN IN STMT
 extern struct ExprRes * doOr(struct ExprRes * Res1, struct ExprRes * Res2) {
   struct ExprRes * Res;
-
   int reg;
   //assign the reg to an available register
   reg = AvailTmpReg();
   //append the two passed in expression, these are whats being added together
   AppendSeq(Res1->Instrs,Res2->Instrs);
-
   Res = (struct ExprRes *) malloc(sizeof(struct ExprRes));
-
   //append the add instruction onto those
   AppendSeq(Res1->Instrs,GenInstr(NULL,"or", TmpRegName(reg), TmpRegName(Res1->Reg),TmpRegName(Res2->Reg)));
   //relese the registers because we used their results
@@ -84,7 +78,24 @@ extern struct ExprRes * doOr(struct ExprRes * Res1, struct ExprRes * Res2) {
   free(Res1);
   free(Res2);
   return Res;
-  
+}
+
+//create the mips instruction for an !
+extern struct ExprRes * doNor(struct ExprRes * Res1) {
+  struct ExprRes * Res;
+  int reg;
+  //assign the reg to an available register
+  reg = AvailTmpReg();
+  Res = (struct ExprRes *) malloc(sizeof(struct ExprRes));
+  //append the add instruction onto those
+  AppendSeq(Res1->Instrs,GenInstr(NULL,"sltu", TmpRegName(reg), "$zero",TmpRegName(Res1->Reg)));
+  AppendSeq(Res1->Instrs,GenInstr(NULL,"xori", TmpRegName(reg), TmpRegName(reg), "1"));
+  //relese the registers because we used their results
+  Res->Reg = reg;
+  Res->Instrs =  Res1->Instrs;
+  ReleaseTmpReg(Res1->Reg);
+  free(Res1);
+  return Res;
 }
 
 
@@ -130,10 +141,8 @@ struct ExprRes * doUSub(struct ExprRes * Res1) {
   int reg;
   //assign the reg to an available register
   reg = AvailTmpReg();
-
   //append the add instruction onto those
   AppendSeq(Res1->Instrs,GenInstr(NULL,"sub", TmpRegName(reg), "$zero",TmpRegName(Res1->Reg)));
-
   //relese the registers because we used their results
   ReleaseTmpReg(Res1->Reg);
   Res1->Reg = reg;
@@ -145,7 +154,6 @@ struct ExprRes * doUSub(struct ExprRes * Res1) {
 //create the mips code for a multiplication
 struct ExprRes * doMult(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
-
   reg = AvailTmpReg();
   //append the two expressions being multilpied
   AppendSeq(Res1->Instrs,Res2->Instrs);
@@ -160,7 +168,6 @@ struct ExprRes * doMult(struct ExprRes * Res1, struct ExprRes * Res2) {
 //create the mips code for a division WHY DOES THIS WORK?
 struct ExprRes * doDiv(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
-
   reg = AvailTmpReg();
   //append the two expressions being divided
   AppendSeq(Res1->Instrs,Res2->Instrs);
@@ -176,7 +183,6 @@ struct ExprRes * doDiv(struct ExprRes * Res1, struct ExprRes * Res2) {
 //create the mips code for a modulo 
 struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
-
   reg = AvailTmpReg();
   //append the two expressions being divided
   AppendSeq(Res1->Instrs,Res2->Instrs);
@@ -194,14 +200,11 @@ struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2) {
 //create the mips code for rasing a number to the power 
 struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
-
   reg = AvailTmpReg();
   //append the two expressions being divided
   AppendSeq(Res1->Instrs,Res2->Instrs);
-
   //generate and append the division instruction
   AppendSeq(Res1->Instrs,GenInstr(NULL, "div", TmpRegName(reg), TmpRegName(Res1->Reg), TmpRegName(Res2->Reg)));
-
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
   Res1->Reg = reg;
@@ -220,7 +223,6 @@ struct InstrSeq * doPrint(struct ExprRes * Expr) {
   AppendSeq(code,GenInstr(NULL,"move","$a0",TmpRegName(Expr->Reg),NULL));
   //do system call
   AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-
   //print a new line
   AppendSeq(code,GenInstr(NULL,"li","$v0","4",NULL));
   AppendSeq(code,GenInstr(NULL,"la","$a0","_nl",NULL));
@@ -228,6 +230,26 @@ struct InstrSeq * doPrint(struct ExprRes * Expr) {
 
   ReleaseTmpReg(Expr->Reg);
   free(Expr);
+  return code;
+}
+
+struct InstrSeq * read(struct IdList * List) {
+  struct InstrSeq *code;
+  return code;
+}
+
+struct InstrSeq * print(struct ExprResList * ExprList) {
+  struct InstrSeq *code;
+  return code;
+}
+
+struct InstrSeq * printlines(struct ExprRes * Expr) {
+  struct InstrSeq *code;
+  return code;
+}
+
+struct InstrSeq * printspaces(struct ExprRes * Expr) {
+  struct InstrSeq *code;
   return code;
 }
 
@@ -281,69 +303,13 @@ extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char
   return Res;
 }
 
-/*
-//boolean expresion result for if statments '=='
-struct BExprRes * doBExpr(struct ExprRes * Res1, struct ExprRes * Res2, char * op) {
-  struct BExprRes * bRes;
-  //append the two instruction sequences that are being compared
-  AppendSeq(Res1->Instrs, Res2->Instrs);
-  bRes = (struct BExprRes *) malloc(sizeof(struct BExprRes));
-  bRes->Label = GenLabel();
-
-  //check for each type of comparrison passed in ONLY WORKS IN IF STMYS BC THEY BRANCH
-  if(strcmp(op, "==") == 0){
-    //append branch not equal instruction
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "bne", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-  } else if (strcmp(op, "!=") == 0){
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "beq", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-
-  } else if (strcmp(op, "<") == 0){
-    //int reg;
-    //assign the reg to an available register
-    //reg = AvailTmpReg();
-    //apprend instruction to branch if >=
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "bge", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-    
-    //AppendSeq(Res1->Instrs, GenInstr(NULL, "slt", TmpRegName(reg), TmpRegName(Res1->Reg), TmpRegName(Res2->Reg)));
-    //AppendSeq(Res1->Instrs, GenInstr(NULL, "beq", TmpRegName(reg), "$zero", bRes->Label));
-  }  else if (strcmp(op, ">") == 0){
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "ble", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-    
-  } else if (strcmp(op, "<=") == 0){
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "bgt", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-    
-  } else if (strcmp(op, ">=") == 0){
-    AppendSeq(Res1->Instrs, GenInstr(NULL, "blt", TmpRegName(Res1->Reg), TmpRegName(Res2->Reg), bRes->Label));
-    
-  }
-  
-  bRes->Instrs = Res1->Instrs;
-  ReleaseTmpReg(Res1->Reg);
-  ReleaseTmpReg(Res2->Reg);
-  free(Res1);
-  free(Res2);
-  return bRes;
-}
-*/
-/*
 //generate the mips code for an if statment, work for checking conditinal is stored in bRes
 //all the work for the body of the if statment is stored in seq
-struct InstrSeq * doIf(struct BExprRes * bRes, struct InstrSeq * seq) {
-  struct InstrSeq * seq2;
-  //append the instrutions that will be exicuted if true
-  seq2 = AppendSeq(bRes->Instrs, seq);
-  //append an instruction that just has a label
-  AppendSeq(seq2, GenInstr(bRes->Label, NULL, NULL, NULL, NULL));
-  free(bRes);
-  return seq2;
-}
-*/
 
 extern struct InstrSeq * doIf(struct ExprRes * Res, struct InstrSeq * seq) {
   struct InstrSeq * seq2;
   char * label = GenLabel();
-  //append the instrutions that will be exicuted if true
-  
+  //append the instrutions that will be executed if true
   AppendSeq(Res->Instrs, GenInstr(NULL, "beq", "$zero", TmpRegName(Res->Reg), label));
   seq2 = AppendSeq(Res->Instrs, seq);
   //append an instruction that just has a label

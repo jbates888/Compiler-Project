@@ -50,7 +50,9 @@ extern int yydebug;
     Int = 260,
     Write = 261,
     IF = 262,
-    EQ = 263
+    ELSE = 263,
+    WHILE = 264,
+    EQ = 265
   };
 #endif
 /* Tokens.  */
@@ -59,7 +61,9 @@ extern int yydebug;
 #define Int 260
 #define Write 261
 #define IF 262
-#define EQ 263
+#define ELSE 263
+#define WHILE 264
+#define EQ 265
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -74,7 +78,7 @@ union YYSTYPE
   struct InstrSeq * InstrSeq;
   //struct BExprRes * BExprRes;
 
-#line 78 "y.tab.h" /* yacc.c:1909  */
+#line 82 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
