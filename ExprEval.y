@@ -25,7 +25,7 @@ extern SymTab *table;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
   //struct BExprRes * BExprRes;
-  }
+}
 
 %type <string> Id
 %type <ExprRes> Factor
@@ -34,7 +34,8 @@ extern SymTab *table;
 %type <InstrSeq> StmtSeq
 %type <InstrSeq> Stmt
 %type <ExprRes> BExpr
-
+%type <ExprRes> RExpr
+%type <ExprRes> Expo
 
 %token Ident 
 %token IntLit 
@@ -60,15 +61,16 @@ Stmt           :  WriteLines '(' Expr ')' ';'               {$$ = printlines($3)
 Stmt           :  WriteSpaces '(' Expr ')' ';'              {$$ = printspaces($3); };
 Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;  
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
-BExpr          :  BExpr '&''&' Expr                         {$$ = doAnd($1, $4); } ;
-BExpr          :  BExpr '|''|' Expr                         {$$ = doOr($1, $4); } ;
-BExpr          :  Expr EQ Expr                              {$$ = doRel($1, $3, "==");};
-BExpr          :  Expr '!' '=' Expr                         {$$ = doRel($1, $4, "!=");};
-BExpr          :  Expr '<' Expr                             {$$ = doRel($1, $3, "<");};
-BExpr          :  Expr '>' Expr                             {$$ = doRel($1, $3, ">");};
-BExpr          :  Expr '<' '=' Expr                         {$$ = doRel($1, $4, "<=");};
-BExpr          :  Expr '>' '=' Expr                         {$$ = doRel($1, $4, ">=");};
-BExpr          :  Expr                                      {$$ = $1;}; 
+BExpr          :  BExpr '&''&' RExpr                        {$$ = doAnd($1, $4); } ;
+BExpr          :  BExpr '|''|' RExpr                        {$$ = doOr($1, $4); } ;
+BExpr          :  RExpr                                     {$$ = $1;}; 
+RExpr          :  Expr EQ Expr                              {$$ = doRel($1, $3, "==");};
+RExpr          :  Expr '!' '=' Expr                         {$$ = doRel($1, $4, "!=");};
+RExpr          :  Expr '<' Expr                             {$$ = doRel($1, $3, "<");};
+RExpr          :  Expr '>' Expr                             {$$ = doRel($1, $3, ">");};
+RExpr          :  Expr '<' '=' Expr                         {$$ = doRel($1, $4, "<=");};
+RExpr          :  Expr '>' '=' Expr                         {$$ = doRel($1, $4, ">=");};
+RExpr          :  Expr                                      {$$ = $1;}; 
 Expr           :  Expr '+' Term                             {$$ = doAdd($1, $3); } ;
 Expr           :  Expr '-' Term                             {$$ = doSub($1, $3); } ;
 Expr           :  Term                                      {$$ = $1; } ;
@@ -76,11 +78,13 @@ Term           :  Term '*' Factor                           {$$ = doMult($1, $3)
 Term           :  Term '/' Factor                           {$$ = doDiv($1, $3); } ;
 Term           :  Term '%' Factor                           {$$ = doMod($1, $3); } ;
 Term           :  Factor                                    {$$ = $1; } ;
-Factor         :  '!' Factor                                {$$ = doNor($2); } ;
-Factor         :  '-' Factor                                {$$ = doUSub($2) ;};
-Factor         :  '(' Expr ')'                              {$$ = $2;};
-Factor         :  IntLit                                    {$$ = doIntLit(yytext); };
-Factor         :  Ident                                     {$$ = doRval(yytext); };
+Factor         :  Expo '^' Factor                           {$$ = doPow($1, $3); } ;
+Factor         :  Expo                                      {$$ = $1;}; 
+Expo           :  '!' Expo                                  {$$ = doNor($2); } ;
+Expo           :  '-' Expo                                  {$$ = doUSub($2) ;};
+Expo           :  '(' Expr ')'                              {$$ = $2;};
+Expo           :  IntLit                                    {$$ = doIntLit(yytext); };
+Expo           :  Ident                                     {$$ = doRval(yytext); };
 Id             :  Ident                                     {$$ = strdup(yytext);}
 
 

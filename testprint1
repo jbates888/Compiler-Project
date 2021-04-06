@@ -5,9 +5,10 @@ num1 = 1;
 num2 = 2;
 
 print num1;
-print num2;
 printlines(2);
 print num1;
+printlines(num1);
 print num1;
-printspaces(4);
+printlines(0);
 print num1;
+

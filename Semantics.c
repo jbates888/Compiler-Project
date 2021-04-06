@@ -201,14 +201,51 @@ struct ExprRes * doMod(struct ExprRes * Res1, struct ExprRes * Res2) {
 //create the mips code for rasing a number to the power 
 struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2) {
   int reg;
+  struct InstrSeq * seq2;
+  int total;
+
+  //declaer the lables for the loop
+  char * start;
+  char * ending;
+  char * zero;
+
+  start = GenLabel();
+  ending = GenLabel();
+  zero = GenLabel();
+  
   reg = AvailTmpReg();
-  //append the two expressions being divided
+  total = AvailTmpReg();
+  //append the two expressions passed in
   AppendSeq(Res1->Instrs,Res2->Instrs);
-  //generate and append the division instruction
-  AppendSeq(Res1->Instrs,GenInstr(NULL, "", TmpRegName(reg), TmpRegName(Res1->Reg), TmpRegName(Res2->Reg)));
+  //add a 1 into the counter
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(reg), "$zero", "1"));
+  //add the number being mulitplyed to the total
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(total), TmpRegName(Res1->Reg), "$zero"));
+  //branch to zero case if the power is equal to zero
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "beq", "$zero", TmpRegName(Res2->Reg), zero));
+  //print the label
+  AppendSeq(Res1->Instrs,GenInstr(start, NULL, NULL, NULL, NULL));
+  //branch to the end if the counter reaches the power
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "beq", TmpRegName(reg), TmpRegName(Res2->Reg), ending));
+  //multiply the total by the res1, store the result in the total
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "mul", TmpRegName(total),TmpRegName(total),TmpRegName(Res1->Reg)));
+  //add one to the counter
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(reg), TmpRegName(reg), "1"));
+  //jump back to the start of the loop
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "j", start, NULL, NULL));
+  //print hte label for the zero case
+  AppendSeq(Res1->Instrs,GenInstr(zero, NULL, NULL, NULL, NULL));
+  //make the total 1 if the exponenet passed in was a 0
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(total), "$zero", "1"));
+  //print the ending label
+  AppendSeq(Res1->Instrs,GenInstr(ending, NULL, NULL, NULL, NULL));
+  
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
-  Res1->Reg = reg;
+  ReleaseTmpReg(total);
+  ReleaseTmpReg(reg);
+  
+  Res1->Reg = total;
   free(Res2);
   return Res1;
 }
@@ -246,23 +283,37 @@ struct InstrSeq * print(struct ExprResList * ExprList) {
 
 //print out new lines, take in an expression which is the number of lines
 struct InstrSeq * printlines(struct ExprRes * Expr) {
-  struct InstrSeq *code;
+  int reg;
+  struct InstrSeq * code;
   code = Expr->Instrs;
-  //put correct system call code in $v
-  AppendSeq(code,GenInstr(NULL,"li","$v0","1",NULL));
-  //put the result to print in $a0
-  AppendSeq(code,GenInstr(NULL,"move","$a0",TmpRegName(Expr->Reg),NULL));
-  //do system call
-  AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
+
+  //declaer the lables for the loop
+  char * start;
+  char * ending;
+  start = GenLabel();
+  ending = GenLabel();
+
+  reg = AvailTmpReg();
+
+  //add a 1 into the counter
+  AppendSeq(code,GenInstr(NULL, "addi", TmpRegName(reg), "$zero", "0"));
+  //print the label
+  AppendSeq(code,GenInstr(start, NULL, NULL, NULL, NULL));
+  //branch to the end if the counter reaches the power
+  AppendSeq(code,GenInstr(NULL, "bge", TmpRegName(reg), TmpRegName(Expr->Reg), ending));
   //print a new line
   AppendSeq(code,GenInstr(NULL,"li","$v0","4",NULL));
   AppendSeq(code,GenInstr(NULL,"la","$a0","_nl",NULL));
   AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-  AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-  AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-  AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-  
+  //add one to the counter
+  AppendSeq(code,GenInstr(NULL, "addi", TmpRegName(reg), TmpRegName(reg), "1"));
+  //jump back to the start of the loop
+  AppendSeq(code,GenInstr(NULL, "j", start, NULL, NULL));
+  //print the ending label
+  AppendSeq(code,GenInstr(ending, NULL, NULL, NULL, NULL));
+
   ReleaseTmpReg(Expr->Reg);
+  ReleaseTmpReg(reg);
   free(Expr);
   return code;
   

@@ -81,9 +81,8 @@ union YYSTYPE
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
   //struct BExprRes * BExprRes;
-  
 
-#line 87 "y.tab.h" /* yacc.c:1909  */
+#line 86 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

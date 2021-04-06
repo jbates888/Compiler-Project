@@ -20,3 +20,6 @@ print num3;
 num1 = -4;
 num3 = num1 -2;
 print num3;
+
+num1 = -10 ^ num2;
+print num1;

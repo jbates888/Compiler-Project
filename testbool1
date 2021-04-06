@@ -9,9 +9,6 @@ num1 = 1;
 num3 = num1 && num1;
 print num3;
 
-num4 = num0 + (num0 || num1);
-print num4;
-
 if(num1 && num1){
   print 2;
 }
