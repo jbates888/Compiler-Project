@@ -319,18 +319,39 @@ struct InstrSeq * printlines(struct ExprRes * Expr) {
   
 }
 
-//print blacnk spaces, take in the number of spaces which is an ecpression
+//print blank spaces, take in the number of spaces which is an expression
 struct InstrSeq * printspaces(struct ExprRes * Expr) {
-  struct InstrSeq *code;
+  int reg;
+  struct InstrSeq * code;
   code = Expr->Instrs;
-  //put correct system call code in $v
-  AppendSeq(code,GenInstr(NULL,"li","$v0","1",NULL));
-  //put the result to print in $a0
-  AppendSeq(code,GenInstr(NULL,"move","$a0",TmpRegName(Expr->Reg),NULL));
-  //do system call
+
+  //declaer the lables for the loop
+  char * start;
+  char * ending;
+  start = GenLabel();
+  ending = GenLabel();
+
+  reg = AvailTmpReg();
+
+  //add a 1 into the counter
+  AppendSeq(code,GenInstr(NULL, "addi", TmpRegName(reg), "$zero", "0"));
+  //print the label
+  AppendSeq(code,GenInstr(start, NULL, NULL, NULL, NULL));
+  //branch to the end if the counter reaches the power
+  AppendSeq(code,GenInstr(NULL, "bge", TmpRegName(reg), TmpRegName(Expr->Reg), ending));
+  //print a new line
+  AppendSeq(code,GenInstr(NULL,"li","$v0","11",NULL));
+  AppendSeq(code,GenInstr(NULL,"li","$a0","32",NULL));
   AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
+  //add one to the counter
+  AppendSeq(code,GenInstr(NULL, "addi", TmpRegName(reg), TmpRegName(reg), "1"));
+  //jump back to the start of the loop
+  AppendSeq(code,GenInstr(NULL, "j", start, NULL, NULL));
+  //print the ending label
+  AppendSeq(code,GenInstr(ending, NULL, NULL, NULL, NULL));
 
   ReleaseTmpReg(Expr->Reg);
+  ReleaseTmpReg(reg);
   free(Expr);
   return code;
 }

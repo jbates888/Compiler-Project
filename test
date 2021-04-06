@@ -1,7 +1,12 @@
+int num0;
 int num1;
+int num3;
 
-num1 = 5 ^ 2;
+num0 = 0;
+num1 = 1;
 
-print num1;
+num3 = (!(1 && 0 || 1)) < 2;
+print num3;
+
 
 
