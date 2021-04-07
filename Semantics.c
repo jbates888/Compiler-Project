@@ -276,8 +276,15 @@ struct InstrSeq * read(struct IdList * List) {
   return code;
 }
 
+//take in a list of expresions, print each one.
 struct InstrSeq * print(struct ExprResList * ExprList) {
   struct InstrSeq *code;
+  /*
+  while(ExprList->next != NULL){
+    doPrint(ExprList->Expr);
+    ExprList = ExprList->next;
+  }
+  */
   return code;
 }
 
@@ -408,7 +415,6 @@ extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char
 
 //generate the mips code for an if statment, work for checking conditinal is stored in bRes
 //all the work for the body of the if statment is stored in seq
-
 extern struct InstrSeq * doIf(struct ExprRes * Res, struct InstrSeq * seq) {
   struct InstrSeq * seq2;
   char * label = GenLabel();
@@ -420,6 +426,32 @@ extern struct InstrSeq * doIf(struct ExprRes * Res, struct InstrSeq * seq) {
   free(Res);
   return seq2;
 }
+
+//generate the mips code for an if else statment, work for checking conditinal is stored in bRes
+//all the work for the body of the if statment is stored in seq
+extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq,  struct InstrSeq * seq2) {
+  struct InstrSeq * seq3;
+  //make the labels
+  char * elseLabel = GenLabel();
+  char * end = GenLabel();
+
+  //append the beq insturction that will jump to else if false
+  AppendSeq(Res->Instrs, GenInstr(NULL, "beq", "$zero", TmpRegName(Res->Reg), elseLabel));
+  //append if statment code
+  seq3 = AppendSeq(Res->Instrs, seq);
+  //jump to end to skip the else
+  AppendSeq(seq3,GenInstr(NULL, "j", end, NULL, NULL));
+  //prinnt the else label
+  AppendSeq(seq3, GenInstr(elseLabel, NULL, NULL, NULL, NULL));
+  //add the code in the else section
+  seq3 = AppendSeq(Res->Instrs, seq2);
+  //print the end label
+  AppendSeq(seq3, GenInstr(end, NULL, NULL, NULL, NULL));
+  
+  free(Res);
+  return seq3;
+}
+
 
 //called for the top production "Prog"
 //Take the linked list of instructions generated, and write them to a file

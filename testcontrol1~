@@ -1,0 +1,17 @@
+int num1;
+int num0;
+
+num1 = 1;
+num0 = 0;
+
+if(num1){
+  print 1;
+}
+
+if(num0){
+  print num0;
+} else {
+  print 2;
+}
+
+

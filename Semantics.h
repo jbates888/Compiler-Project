@@ -38,4 +38,5 @@ extern struct InstrSeq * printlines(struct ExprRes * Expr);
 extern struct InstrSeq * printspaces(struct ExprRes * Expr);
 extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char * op);
 extern struct InstrSeq * doIf(struct ExprRes *bRes, struct InstrSeq * seq);
+extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq, struct InstrSeq * seq2);
 extern void Finish(struct InstrSeq *Code);

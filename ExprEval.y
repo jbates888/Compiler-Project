@@ -24,6 +24,7 @@ extern SymTab *table;
   char * string;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
+  struct ExprResList * ExprResList;
   //struct BExprRes * BExprRes;
 }
 
@@ -36,6 +37,8 @@ extern SymTab *table;
 %type <ExprRes> BExpr
 %type <ExprRes> RExpr
 %type <ExprRes> Expo
+//%type <ExprResList> ExList
+//%type <IdList> IdList
 
 %token Ident 
 %token IntLit 
@@ -43,6 +46,7 @@ extern SymTab *table;
 %token Write
 %token WriteLines
 %token WriteSpaces
+%token Read
 %token IF
 %token ELSE
 %token WHILE
@@ -56,10 +60,13 @@ Declarations   :                                            { };
 Dec            :  Int Ident {enterName(table, yytext); }';' {};
 StmtSeq        :  Stmt StmtSeq                              {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                            {$$ = NULL;} ;
+//Stmt          :  Write '(' ExList ')' ';'                  {$$ = print($3); };
 Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
 Stmt           :  WriteLines '(' Expr ')' ';'               {$$ = printlines($3); };
 Stmt           :  WriteSpaces '(' Expr ')' ';'              {$$ = printspaces($3); };
-Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;  
+//Stmt           :  Read '(' IdList ')' ';'                   {$$ = read($3); };
+Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;
+Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'      {$$ = doIfElse($3, $6, $10);};
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
 BExpr          :  BExpr '&''&' RExpr                        {$$ = doAnd($1, $4); } ;
 BExpr          :  BExpr '|''|' RExpr                        {$$ = doOr($1, $4); } ;
