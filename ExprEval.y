@@ -37,7 +37,7 @@ extern SymTab *table;
 %type <ExprRes> BExpr
 %type <ExprRes> RExpr
 %type <ExprRes> Expo
-//%type <ExprResList> ExList
+%type <ExprResList> ExList
 //%type <IdList> IdList
 
 %token Ident 
@@ -60,14 +60,15 @@ Declarations   :                                            { };
 Dec            :  Int Ident {enterName(table, yytext); }';' {};
 StmtSeq        :  Stmt StmtSeq                              {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                            {$$ = NULL;} ;
-//Stmt          :  Write '(' ExList ')' ';'                  {$$ = print($3); };
-Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
+//Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
+Stmt           :  Write '(' ExList ')' ';'                  {$$ = print($3); };
 Stmt           :  WriteLines '(' Expr ')' ';'               {$$ = printlines($3); };
 Stmt           :  WriteSpaces '(' Expr ')' ';'              {$$ = printspaces($3); };
-//Stmt           :  Read '(' IdList ')' ';'                   {$$ = read($3); };
 Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'      {$$ = doIfElse($3, $6, $10);};
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
+ExList         :  BExpr                                     {$$ = addElement($1, NULL);};
+ExList         :  BExpr ',' ExList                          {$$ = addElement($1, $3);};
 BExpr          :  BExpr '&''&' RExpr                        {$$ = doAnd($1, $4); } ;
 BExpr          :  BExpr '|''|' RExpr                        {$$ = doOr($1, $4); } ;
 BExpr          :  RExpr                                     {$$ = $1;}; 

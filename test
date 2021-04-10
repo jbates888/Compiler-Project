@@ -5,8 +5,8 @@ int num3;
 num0 = 0;
 num1 = 1;
 
-num3 = (!(1 && 0 || 1)) < 2;
-print num3;
+print(num1 ^ 3, num0, 28, 9);
+
 
 
 

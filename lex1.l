@@ -35,6 +35,7 @@ printlines                    {return WriteLines;}
 \&                            {return '&';}
 \|                            {return '|';}
 \%                            {return '%';}
+\,                            {return ',';}
 \^                            {return '^';}
 \;                            {return ';';}
 \{                            {return '{';}

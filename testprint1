@@ -4,11 +4,11 @@ int num2;
 num1 = 1;
 num2 = 2;
 
-print num1;
+print(num1);
 printlines(num2);
-print num1;
-printspaces(0);
-print num1;
-printlines(0);
-print num1;
+print(num1 - num2);
+printspaces(4);
+print(-12);
+printlines(1);
+print(num1 && num1);
 

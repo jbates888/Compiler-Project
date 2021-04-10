@@ -1,3 +1,4 @@
+
 #include <strings.h>
 #include <stdlib.h>
 
@@ -279,13 +280,26 @@ struct InstrSeq * read(struct IdList * List) {
 //take in a list of expresions, print each one.
 struct InstrSeq * print(struct ExprResList * ExprList) {
   struct InstrSeq *code;
-  /*
-  while(ExprList->next != NULL){
-    doPrint(ExprList->Expr);
-    ExprList = ExprList->next;
+  struct InstrSeq * inst = (struct InstrSeq *) malloc(sizeof(struct InstrSeq));
+  while(ExprList != NULL){
+    //printf("%d\n", ExprList->Expr->Reg);
+    code = ExprList->Expr->Instrs;
+    //put correct system call code in $v
+    AppendSeq(code,GenInstr(NULL,"li","$v0","1",NULL));
+    //put the result to print in $a0
+    AppendSeq(code,GenInstr(NULL,"move","$a0",TmpRegName(ExprList->Expr->Reg),NULL));
+    //do system call
+    AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
+
+    AppendSeq(code,GenInstr(NULL,"li","$v0","11",NULL));
+    AppendSeq(code,GenInstr(NULL,"li","$a0","32",NULL));
+    AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
+    
+    AppendSeq(inst, code);
+    ReleaseTmpReg(ExprList->Expr->Reg);
+    ExprList = ExprList->Next;
   }
-  */
-  return code;
+  return inst;
 }
 
 //print out new lines, take in an expression which is the number of lines
@@ -307,7 +321,7 @@ struct InstrSeq * printlines(struct ExprRes * Expr) {
   //print the label
   AppendSeq(code,GenInstr(start, NULL, NULL, NULL, NULL));
   //branch to the end if the counter reaches the power
-  AppendSeq(code,GenInstr(NULL, "bge", TmpRegName(reg), TmpRegName(Expr->Reg), ending));
+  AppendSeq(code,GenInstr(NULL, "bgt", TmpRegName(reg), TmpRegName(Expr->Reg), ending));
   //print a new line
   AppendSeq(code,GenInstr(NULL,"li","$v0","4",NULL));
   AppendSeq(code,GenInstr(NULL,"la","$a0","_nl",NULL));
@@ -452,6 +466,13 @@ extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq,  
   return seq3;
 }
 
+//Add an expression to the list  
+struct ExprResList * addElement(struct ExprRes * x, struct ExprResList *h) {
+  struct ExprResList * h1 = (struct ExprResList *) malloc(sizeof(struct ExprResList));
+  h1->Expr = x;
+  h1->Next = h;
+  return h1;
+}
 
 //called for the top production "Prog"
 //Take the linked list of instructions generated, and write them to a file

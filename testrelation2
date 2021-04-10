@@ -8,34 +8,34 @@ num2 = 2;
 num3 = 3;
 
 num4 = num1 < num2;
-print num4;
+print(num4);
 
 if(num1 > num3){
-  print 1000;
+  print(1000);
 }
 
 if(num1 > num1){
-  print 1000;
+  print(1000);
 }
 
 if(num2 > num1){
-  print 2;
+  print(2);
 }
 
 if(num1 >= num1){
-  print 3;
+  print(3);
 }
 
 if(num1 >= num2){
-  print 1000;
+  print(1000);
 }
 
 if(num3 >= num2){
-  print 4;
+  print(4);
 }
 
 if(6 > num1){
-  print 5;
+  print(5);
 }
 
 
