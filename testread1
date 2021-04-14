@@ -1,0 +1,6 @@
+int a;
+int b;
+int c;
+
+read(a,b, c);
+print(a, b, c);

@@ -1,4 +1,3 @@
-
 /* Semantic Records */
 struct IdList {
   struct SymEntry * TheEntry;
@@ -39,5 +38,8 @@ extern struct InstrSeq * printspaces(struct ExprRes * Expr);
 extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char * op);
 extern struct InstrSeq * doIf(struct ExprRes *bRes, struct InstrSeq * seq);
 extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq, struct InstrSeq * seq2);
+extern struct InstrSeq * doWhile(struct ExprRes *bRes, struct InstrSeq * seq);
+extern struct InstrSeq * doFor(struct InstrSeq * seq, struct ExprRes * Res, struct InstrSeq * seq1, struct InstrSeq * seq2);
 extern struct ExprResList * addElement(struct ExprRes * x, struct ExprResList *h);
+extern struct IdList * addVariable(char * x, struct IdList *h);
 extern void Finish(struct InstrSeq *Code);

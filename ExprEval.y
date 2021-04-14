@@ -25,6 +25,7 @@ extern SymTab *table;
   struct ExprRes * ExprRes;
   struct InstrSeq * InstrSeq;
   struct ExprResList * ExprResList;
+  struct IdList * IdList;
   //struct BExprRes * BExprRes;
 }
 
@@ -38,7 +39,7 @@ extern SymTab *table;
 %type <ExprRes> RExpr
 %type <ExprRes> Expo
 %type <ExprResList> ExList
-//%type <IdList> IdList
+%type <IdList> IDList
 
 %token Ident 
 %token IntLit 
@@ -50,6 +51,7 @@ extern SymTab *table;
 %token IF
 %token ELSE
 %token WHILE
+%token FOR
 %token EQ
 
 %%
@@ -61,12 +63,17 @@ Dec            :  Int Ident {enterName(table, yytext); }';' {};
 StmtSeq        :  Stmt StmtSeq                              {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                            {$$ = NULL;} ;
 //Stmt           :  Write Expr ';'                            {$$ = doPrint($2); };
+Stmt           :  Read '(' IDList ')' ';'                   {$$ = read($3); };
 Stmt           :  Write '(' ExList ')' ';'                  {$$ = print($3); };
 Stmt           :  WriteLines '(' Expr ')' ';'               {$$ = printlines($3); };
 Stmt           :  WriteSpaces '(' Expr ')' ';'              {$$ = printspaces($3); };
 Stmt           :  Id '=' BExpr ';'                          {$$ = doAssign($1, $3);} ;
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'      {$$ = doIfElse($3, $6, $10);};
 Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'          {$$ = doIf($3, $6);};
+Stmt           :  WHILE '(' BExpr ')' '{' StmtSeq '}'       {$$ = doWhile($3, $6);}
+Stmt           :  FOR '(' Stmt  BExpr ';' Stmt ')' '{' StmtSeq '}'   {$$ = doFor($3, $4, $6, $9);}
+IDList         :  Id                                        {$$ = addVariable($1, NULL);};
+IDList         :  Id ',' IDList                             {$$ = addVariable($1, $3);};
 ExList         :  BExpr                                     {$$ = addElement($1, NULL);};
 ExList         :  BExpr ',' ExList                          {$$ = addElement($1, $3);};
 BExpr          :  BExpr '&''&' RExpr                        {$$ = doAnd($1, $4); } ;

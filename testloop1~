@@ -8,6 +8,10 @@ while(num1 < 10){
   num1 = num1 + 1;
 }
 
-print(2222);
+printlines(1);
 
-
+num1 = 10;
+while(num1 >= 0){
+  print(num1);
+  num1 = num1 - 1;
+}

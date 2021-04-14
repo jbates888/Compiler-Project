@@ -221,7 +221,7 @@ struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2) {
   //add a 1 into the counter
   AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(reg), "$zero", "1"));
   //add the number being mulitplyed to the total
-  AppendSeq(Res1->Instrs,GenInstr(NULL, "addi", TmpRegName(total), TmpRegName(Res1->Reg), "$zero"));
+  AppendSeq(Res1->Instrs,GenInstr(NULL, "add", TmpRegName(total), TmpRegName(Res1->Reg), "$zero"));
   //branch to zero case if the power is equal to zero
   AppendSeq(Res1->Instrs,GenInstr(NULL, "beq", "$zero", TmpRegName(Res2->Reg), zero));
   //print the label
@@ -251,7 +251,7 @@ struct ExprRes * doPow(struct ExprRes * Res1, struct ExprRes * Res2) {
   return Res1;
 }
 
-
+/*
 //generate the instructions to print the value in the register storeing the result of the paassed in expresion in mips
 struct InstrSeq * doPrint(struct ExprRes * Expr) {
   struct InstrSeq *code;
@@ -271,18 +271,29 @@ struct InstrSeq * doPrint(struct ExprRes * Expr) {
   free(Expr);
   return code;
 }
+*/
 
 struct InstrSeq * read(struct IdList * List) {
-  struct InstrSeq *code;
-  return code;
+  struct InstrSeq * inst = (struct InstrSeq *) malloc(sizeof(struct InstrSeq));
+  
+  while(List != NULL){
+    AppendSeq(inst,GenInstr(NULL,"li","$v0", "5", NULL));
+    //do system call
+    AppendSeq(inst,GenInstr(NULL,"syscall",NULL,NULL,NULL));
+    AppendSeq(inst,GenInstr(NULL,"sw","$v0", List->TheEntry->name, NULL));
+    //null, sw, v0, list->theEntry->name null
+    List = List->Next;
+  }
+  //AppendSeq(inst,code);
+  return inst;
 }
+
 
 //take in a list of expresions, print each one.
 struct InstrSeq * print(struct ExprResList * ExprList) {
   struct InstrSeq *code;
   struct InstrSeq * inst = (struct InstrSeq *) malloc(sizeof(struct InstrSeq));
   while(ExprList != NULL){
-    //printf("%d\n", ExprList->Expr->Reg);
     code = ExprList->Expr->Instrs;
     //put correct system call code in $v
     AppendSeq(code,GenInstr(NULL,"li","$v0","1",NULL));
@@ -290,13 +301,14 @@ struct InstrSeq * print(struct ExprResList * ExprList) {
     AppendSeq(code,GenInstr(NULL,"move","$a0",TmpRegName(ExprList->Expr->Reg),NULL));
     //do system call
     AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-
+    //print a space
     AppendSeq(code,GenInstr(NULL,"li","$v0","11",NULL));
     AppendSeq(code,GenInstr(NULL,"li","$a0","32",NULL));
     AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
-    
+    //append the ocde to the inst and release the reg
     AppendSeq(inst, code);
     ReleaseTmpReg(ExprList->Expr->Reg);
+    //advance down the list
     ExprList = ExprList->Next;
   }
   return inst;
@@ -466,13 +478,87 @@ extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq,  
   return seq3;
 }
 
-//Add an expression to the list  
+//Generate mips code for while loop
+extern struct InstrSeq * doWhile(struct ExprRes * Res, struct InstrSeq * seq) {
+  struct InstrSeq * seq2 = (struct InstrSeq *) malloc(sizeof(struct InstrSeq));
+  
+  //declaer the lables for the loop
+  char * start;
+  char * ending;
+  
+  start = GenLabel();
+  ending = GenLabel();
+  
+  //print the start label
+  AppendSeq(seq2,GenInstr(start, NULL, NULL, NULL, NULL));
+  AppendSeq(seq2, Res->Instrs);
+  //branch to the end if the counter reaches the power
+  AppendSeq(seq2,GenInstr(NULL, "beq", TmpRegName(Res->Reg), "$zero", ending));
+  
+  AppendSeq(seq2, seq);
+  
+  //jump back to the start of the loop
+  AppendSeq(seq2,GenInstr(NULL, "j", start, NULL, NULL));
+  //print the ending label
+  AppendSeq(Res->Instrs,GenInstr(ending, NULL, NULL, NULL, NULL));
+
+  //ReleaseTmpReg(Res->Reg);
+  free(Res);
+  return seq2;
+}
+
+//Generate mips code for for loop
+extern struct InstrSeq * doFor(struct InstrSeq * seq, struct ExprRes * Res, struct InstrSeq * seq1, struct InstrSeq * seq2) {
+  struct InstrSeq * seq3 = (struct InstrSeq *) malloc(sizeof(struct InstrSeq));
+
+  //declaer the lables for the loop
+  char * start;
+  char * ending;
+
+  start = GenLabel();
+  ending = GenLabel();
+
+  AppendSeq(seq3, seq);
+  //print the start label
+  AppendSeq(seq3,GenInstr(start, NULL, NULL, NULL, NULL));
+  AppendSeq(seq3, Res->Instrs);
+  //branch to the end if the counter reaches the power
+  AppendSeq(seq3,GenInstr(NULL, "beq", TmpRegName(Res->Reg), "$zero", ending));
+  AppendSeq(seq3, seq2);
+  AppendSeq(seq3, seq1);
+  //jump back to the start of the loop
+  AppendSeq(seq3,GenInstr(NULL, "j", start, NULL, NULL));
+  //print the ending label
+  AppendSeq(Res->Instrs,GenInstr(ending, NULL, NULL, NULL, NULL));
+
+  //ReleaseTmpReg(Res->Reg);
+  free(Res);
+  return seq3;
+}
+
+
+//Add an expression to the expresion list  
 struct ExprResList * addElement(struct ExprRes * x, struct ExprResList *h) {
   struct ExprResList * h1 = (struct ExprResList *) malloc(sizeof(struct ExprResList));
   h1->Expr = x;
   h1->Next = h;
   return h1;
 }
+
+//add an variable name to the ID list
+extern struct IdList * addVariable(char *x, struct IdList *h){
+  int find = findName(table, x);
+  if(find == 1){
+    struct SymEntry * entry = table->current;
+    struct IdList * h1 = (struct IdList *) malloc(sizeof(struct IdList));
+    h1->TheEntry = entry;
+    h1->Next = h;
+    return h1;
+  } else {
+    return NULL;
+  }
+}
+
 
 //called for the top production "Prog"
 //Take the linked list of instructions generated, and write them to a file
