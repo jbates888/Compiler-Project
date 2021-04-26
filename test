@@ -1,13 +1,9 @@
-int num0;
 int num1;
-int num3;
+int num0;
 
 num1 = 1;
-while(num1 < 10){
-  print(num1);
-  num1 = num1 + 1;
-}
+num0 = 0;
 
-print(2222);
-
-
+if(1){
+  print(1);
+} 

@@ -52,6 +52,7 @@ void destroySymTab(SymTab * table){
       while(table->contents[i] != NULL){
 	cur = table->contents[i];
 	table->contents[i] = table->contents[i]->next;
+	cur->name = NULL;
 	free(cur->name);
 	free(cur);
       }
@@ -59,8 +60,10 @@ void destroySymTab(SymTab * table){
     table->contents[i] = NULL;
   }
   free(table->contents);
+  table = NULL;
   free(table);
 }
+
 
 //insert new item in the table, pass in the table and name to enter
 int enterName(SymTab * table, char * name){

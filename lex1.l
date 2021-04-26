@@ -16,9 +16,12 @@ digit [0-9]
 
 if                            {return IF;}
 else                          {return ELSE;}
+true                          {return TRUE;}
+false                         {return FALSE;}
 while                         {return WHILE;}
 for                           {return FOR;}
 int                           {return Int;}
+boolean                       {return Boolean;}
 read                          {return Read;}
 print                         {return Write;}
 printspaces                   {return WriteSpaces;}
@@ -42,6 +45,8 @@ printlines                    {return WriteLines;}
 \;                            {return ';';}
 \{                            {return '{';}
 \}                            {return '}';}
+\[                            {return '[';}
+\]                            {return ']';}
 \(                            {return '(';}
 \)                            {return ')';}
 [ ]                           {}

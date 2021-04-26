@@ -64,8 +64,8 @@ Declarations   :  Dec Declarations                                           { }
 Declarations   :                                                             { };
 Dec            :  Int Id {enterName(table, $2); }';'                         {};
 Dec            :  Int Id {enterName(table, $2); } '[' IntLit {cpy = strdup(yytext);} ']' ';'   {setAttr("array",cpy);};
-Dec            :  Boolean Id {enterName(table, $2); }';'                     {setAttr("boolean", "");};
-StmtSeq        :  Stmt StmtSeq                                               {$$ = AppendSeq($1, $2); } ;
+Dec            :  Boolean Id {enterName(table, $2); }';'                     {newBoolean();};
+StmtSeq        :  Stmt StmtSeq                                               {setAttr("bool",cpy)); } ;
 StmtSeq        :                                                             {$$ = NULL;} ;
 Stmt           :  Read '(' Id '[' BExpr ']' ')' ';'                           {$$ = readArr($3, $5); };
 Stmt           :  Read '(' IDList ')' ';'                                    {$$ = read($3); };

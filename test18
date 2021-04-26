@@ -1,0 +1,25 @@
+boolean x;
+boolean y;
+boolean z;
+
+x = true;
+y = false;
+z = x && y;
+
+print(z);
+printlines(0);
+z = x || y;
+print(z);
+printlines(0);
+z = !x;
+print(z);
+printlines(0);
+z = !(x && y);
+print(z);
+printlines(0);
+z = !x || !y;
+print(z);
+printlines(0);
+z = !!x;
+print(z);
+printlines(0);

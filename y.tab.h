@@ -56,7 +56,10 @@ extern int yydebug;
     ELSE = 266,
     WHILE = 267,
     FOR = 268,
-    EQ = 269
+    EQ = 269,
+    TRUE = 270,
+    FALSE = 271,
+    Boolean = 272
   };
 #endif
 /* Tokens.  */
@@ -72,6 +75,9 @@ extern int yydebug;
 #define WHILE 267
 #define FOR 268
 #define EQ 269
+#define TRUE 270
+#define FALSE 271
+#define Boolean 272
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -88,7 +94,7 @@ union YYSTYPE
   struct IdList * IdList;
   //struct BExprRes * BExprRes;
 
-#line 92 "y.tab.h" /* yacc.c:1909  */
+#line 98 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

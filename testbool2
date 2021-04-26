@@ -1,0 +1,11 @@
+boolean b1;
+boolean b2;
+
+b1 = true;
+b2 = false;
+
+print(b1);
+print(b2);
+
+
+
