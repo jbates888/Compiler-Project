@@ -24,7 +24,7 @@ for (p = 0; p < count -1; p = p + 1;) {
 }
 
 printlines(1);
-for (i = 0; i < count; i++;) {
+for (i = 0; i < count; i = i + 1;) {
   print(numbers[i]);
 }
 printlines(0);

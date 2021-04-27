@@ -76,6 +76,7 @@ struct ExprRes * doArrVal(char * name, struct ExprRes * Res1){
   res->Instrs = inst;
   //set the name in the struct
   res->name = strdup(name);
+  //ReleaseTmpReg(Res1->Reg);//may cause issue
   return res;
 }
 
@@ -94,6 +95,7 @@ struct ExprRes * doRval(char * name) {
   res->Instrs = GenInstr(NULL,"lw",TmpRegName(res->Reg),name,NULL);
   //set the name in the struct
   res->name = strdup(name);
+  
   return res;
 }
 
@@ -151,7 +153,7 @@ extern struct ExprRes * doNor(struct ExprRes * Res1) {
   AppendSeq(Res1->Instrs,GenInstr(NULL,"xori", TmpRegName(reg), TmpRegName(reg), "1"));
   //relese the registers because we used their results
   Res->Reg = reg;
-  Res->Instrs =  Res1->Instrs;
+  Res->Instrs = Res1->Instrs;
   ReleaseTmpReg(Res1->Reg);
   free(Res1);
   return Res;
@@ -352,6 +354,8 @@ extern struct InstrSeq * readArr(char * name, struct ExprRes * Res1){
   AppendSeq(inst, GenInstr(NULL,"syscall", NULL ,NULL, NULL));
   //store the vaule at the calculated address
   AppendSeq(inst, GenInstr(NULL, "sw", "$v0", str4, NULL));
+  ReleaseTmpReg(Res1->Reg);
+  ReleaseTmpReg(reg);
   return inst;
 }
 
@@ -409,6 +413,7 @@ struct InstrSeq * print(struct ExprResList * ExprList) {
 	//do system call
 	AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
       }
+      //ReleaseTmpReg(ExprList->Expr->Reg); //breaks test 9
     }
     //print a space
     AppendSeq(code,GenInstr(NULL,"li","$v0","11",NULL));
@@ -416,7 +421,7 @@ struct InstrSeq * print(struct ExprResList * ExprList) {
     AppendSeq(code,GenInstr(NULL,"syscall",NULL,NULL,NULL));
     //append the code to the inst and release the reg
     AppendSeq(inst, code);
-    ReleaseTmpReg(ExprList->Expr->Reg);
+    ReleaseTmpReg(ExprList->Expr->Reg);//may cause issues
     ExprList = ExprList->Next;
   }   
   return inst;
@@ -611,6 +616,7 @@ extern struct ExprRes * doRel(struct ExprRes * Res1, struct ExprRes * Res2, char
   //free registers
   ReleaseTmpReg(Res1->Reg);
   ReleaseTmpReg(Res2->Reg);
+  //ReleaseTmpReg(reg);//comment out for test 9 to work MAY CAUSE ISSUES
   free(Res1);
   free(Res2);
   return Res;
@@ -628,6 +634,7 @@ extern struct InstrSeq * doIf(struct ExprRes * Res, struct InstrSeq * seq) {
   seq2 = AppendSeq(Res->Instrs, seq);
   //append an instruction that just has a label
   AppendSeq(seq2, GenInstr(label, NULL, NULL, NULL, NULL));
+  //ReleaseTmpReg(Res->Reg);
   free(Res);
   return seq2;
 }
@@ -652,7 +659,7 @@ extern struct InstrSeq * doIfElse(struct ExprRes * Res, struct InstrSeq * seq,  
   seq3 = AppendSeq(Res->Instrs, seq2);
   //print the end label
   AppendSeq(seq3, GenInstr(end, NULL, NULL, NULL, NULL));
-  
+  //ReleaseTmpReg(Res->Reg);
   free(Res);
   return seq3;
 }
@@ -678,6 +685,7 @@ extern struct InstrSeq * doWhile(struct ExprRes * Res, struct InstrSeq * seq) {
   AppendSeq(seq2,GenInstr(NULL, "j", start, NULL, NULL));
   //print the ending label
   AppendSeq(Res->Instrs,GenInstr(ending, NULL, NULL, NULL, NULL));
+  ReleaseTmpReg(Res->Reg);
   free(Res);
   return seq2;
 }
@@ -705,7 +713,7 @@ extern struct InstrSeq * doFor(struct InstrSeq * seq, struct ExprRes * Res, stru
   AppendSeq(seq3,GenInstr(NULL, "j", start, NULL, NULL));
   //print the ending label
   AppendSeq(Res->Instrs,GenInstr(ending, NULL, NULL, NULL, NULL));
-  //ReleaseTmpReg(Res->Reg);
+  ReleaseTmpReg(Res->Reg);
   free(Res);
   return seq3;
 }
