@@ -6,6 +6,6 @@ read(i, j, k, m);
 print(i, j, k, m);
 printlines(0);
 print(i^j * k + m, m + k * i^j);
-printspaces(8);
+printspaces(7);
 print(i, j, k, m);
 printlines(0);
