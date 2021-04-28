@@ -18,11 +18,9 @@ struct BExprRes {
   struct InstrSeq * Instrs;
 };
 struct EntryType {
-  int type;
+  char * type;
   int size;
 };
-
-char * cpy;
 
 /* Semantics Actions */
 extern void setAttr(char * type, char * space);
@@ -57,3 +55,5 @@ extern struct InstrSeq * doFor(struct InstrSeq * seq, struct ExprRes * Res, stru
 extern struct ExprResList * addElement(struct ExprRes * x, struct ExprResList *h);
 extern struct IdList * addVariable(char * x, struct IdList *h);
 extern void Finish(struct InstrSeq *Code);
+
+char * cpy;

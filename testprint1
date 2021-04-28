@@ -6,9 +6,10 @@ num2 = 2;
 
 print(num1);
 printlines(num2);
-print(num1 - num2);
-printspaces(4);
-print(-12);
-printlines(1);
-print(num1 && num1);
+print(num2);
+printspaces(num2);
+print(num2);
+printlines(num1);
+num1= 0 && 1;
+print(num1);
 

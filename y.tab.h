@@ -92,9 +92,8 @@ union YYSTYPE
   struct InstrSeq * InstrSeq;
   struct ExprResList * ExprResList;
   struct IdList * IdList;
-  //struct BExprRes * BExprRes;
 
-#line 98 "y.tab.h" /* yacc.c:1909  */
+#line 97 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

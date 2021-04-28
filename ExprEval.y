@@ -26,7 +26,6 @@ extern SymTab *table;
   struct InstrSeq * InstrSeq;
   struct ExprResList * ExprResList;
   struct IdList * IdList;
-  //struct BExprRes * BExprRes;
 }
 
 %type <string> Id
@@ -67,7 +66,7 @@ Dec            :  Int Id {enterName(table, $2); } '[' IntLit {cpy = strdup(yytex
 Dec            :  Boolean Id {enterName(table, $2); }';'                     {setAttr("boolean", "");};
 StmtSeq        :  Stmt StmtSeq                                               {$$ = AppendSeq($1, $2); } ;
 StmtSeq        :                                                             {$$ = NULL;} ;
-Stmt           :  Read '(' Id '[' BExpr ']' ')' ';'                           {$$ = readArr($3, $5); };
+Stmt           :  Read '(' Id '[' Expr ']' ')' ';'                           {$$ = readArr($3, $5); };
 Stmt           :  Read '(' IDList ')' ';'                                    {$$ = read($3); };
 Stmt           :  Write '(' ExList ')' ';'                                   {$$ = print($3); };
 Stmt           :  WriteLines '(' Expr ')' ';'                                {$$ = printlines($3); };
@@ -76,10 +75,10 @@ Stmt           :  Id '=' BExpr ';'                                           {$$
 Stmt           :  Id '[' BExpr ']' '=' BExpr ';'                             {$$ = doArrAssign($1, $3, $6);} ;
 Stmt           :  Id '=' TRUE ';'                                            {$$ = doBoolAssign($1, "TRUE");} ;
 Stmt           :  Id '=' FALSE ';'                                           {$$ = doBoolAssign($1, "FALSE");} ;
-Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'      {$$ = doIfElse($3, $6, $10);};
-Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'                           {$$ = doIf($3, $6);};
 Stmt           :  WHILE '(' BExpr ')' '{' StmtSeq '}'                        {$$ = doWhile($3, $6);}
 Stmt           :  FOR '(' Stmt  BExpr ';' Stmt ')' '{' StmtSeq '}'           {$$ = doFor($3, $4, $6, $9);}
+Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'      {$$ = doIfElse($3, $6, $10);};
+Stmt           :  IF '(' BExpr ')' '{' StmtSeq '}'                           {$$ = doIf($3, $6);};
 IDList         :  Id                                                         {$$ = addVariable($1, NULL);};
 IDList         :  Id ',' IDList                                              {$$ = addVariable($1, $3);};
 ExList         :  BExpr                                                      {$$ = addElement($1, NULL);};
