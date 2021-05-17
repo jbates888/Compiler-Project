@@ -1,6 +1,6 @@
 # Compiler Project
 
-# This program is a complier for a C like programming languge that outputs MIPS code
+# This program is a complier for a C like programming languge that outputs MIPS code made with lex and yacc. 
 
 # Features: 
 * Int and Boolean types
@@ -16,12 +16,13 @@
 * Boolean expressions
 
 # How to install
-1. Download zip or clone
-2. 
+1. Download zip and exctract files or clone 
+2. git clone https://github.com/jbates888/Compiler-Project.git
+
 # How to run
 1. CD to project directroy
-2. enter: lex lex.y
-3. enter: yacc -d Experion.y
-4. enter: ggc -o 
-5. run with: ./ comp
-6. view asm.asm to see mips output and the listing.lst to view the input
+2. enter: lex lex1.y
+3. enter: yacc -d ExprEval.y
+4. enter: gcc -o comp lex.yy.c y.tab.c SymTab.c Semantics.c CodeGen.c IOMngr.c main.c
+5. run with: ./comp test1 listing.lst asmCode.asm (test1 is a file with the c like language to be complied)
+6. view asmCode.asm to see mips output and the listing.lst to view the input
