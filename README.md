@@ -16,7 +16,7 @@
 * Boolean expressions
 
 # How to install
-1. Download zip and exctract files or clone 
+1. Download zip and extract files or clone 
 2. git clone https://github.com/jbates888/Compiler-Project.git
 
 # How to run
