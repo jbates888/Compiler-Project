@@ -9,7 +9,7 @@
 * <, <=, ==, >=, >, !=
 * !, &&, ||
 * Read ints from users
-* Print lines, spaces, or a list of variables(ints)
+* Print lines, spaces, or a list of variables
 * While loops
 * For loops
 * Single dimension arrays
@@ -20,9 +20,9 @@
 2. git clone https://github.com/jbates888/Compiler-Project.git
 
 # How to run
-1. CD to project directroy
-2. enter: lex lex1.y
-3. enter: yacc -d ExprEval.y
-4. enter: gcc -o comp lex.yy.c y.tab.c SymTab.c Semantics.c CodeGen.c IOMngr.c main.c
-5. run with: ./comp test1 listing.lst asmCode.asm (test1 is a file with the c like language to be complied)
+1. CD to project directory
+2. lex lex1.y
+3. yacc -d ExprEval.y
+4. gcc -o comp lex.yy.c y.tab.c SymTab.c Semantics.c CodeGen.c IOMngr.c main.c
+5. ./comp test1 listing.lst asmCode.asm (test1 is a file with the c like language to be complied)
 6. view asmCode.asm to see mips output and the listing.lst to view the input
